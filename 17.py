@@ -17,17 +17,21 @@ def get_combo_value(operand, registers):
         return operand
     return registers[operand % 4]
 
+# 0
 def adv(iptr, operand, r):
     numerator = r[0]
     denominator = 2**get_combo_value(operand, r)
     return (iptr + 2, [floor(numerator/denominator), r[1], r[2]])
     
+# 1
 def bxl(iptr, operand, r):
     return (iptr + 2, [r[0], r[1] ^ operand, r[2]])
 
+# 2
 def bst(iptr, operand, r):
     return (iptr + 2, [r[0], get_combo_value(operand, r) % 8, r[2]])
 
+# 3
 def jnz(iptr, operand, r):
     if r[0] == 0:
         return (iptr + 2, r)
@@ -38,19 +42,23 @@ def jnz(iptr, operand, r):
     else:
         return (new_iptr, r)
 
+# 4
 def bxc(iptr, operand, r):
     return (iptr + 2, [r[0], r[1]^r[2], r[2]])
 
+# 5
 def out(iptr, operand, r, outputs):
     outval = get_combo_value(operand, r) % 8
     outputs.append(outval)
     return (iptr + 2, r)
 
+# 6
 def bdv(iptr, operand, r):
     numerator = r[0]
     denominator = 2**get_combo_value(operand, r)
     return (iptr + 2, [r[0], floor(numerator/denominator), r[2]])
 
+# 7
 def cdv(iptr, operand, r):
     numerator = r[0]
     denominator = 2**get_combo_value(operand, r)
